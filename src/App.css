@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+
+}
+
+.list {
+  width: 40%;
+  height: 90%;
+  margin: 4%;
+  border: 1px solid black;
+}
+
+.title {
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  display: flex;
+  justify-content: left;
+  margin: 10px;
+}
+
+.todo {
+  border: 1px solid black;
+}
+
+.todo p {
+  margin-left: 10px;
+}
