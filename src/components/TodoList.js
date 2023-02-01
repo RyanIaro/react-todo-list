@@ -1,46 +1,80 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import "../App.css"
 
-export let todoObject = {
-    "description": null,
-    "isReady": null,
-    "isDone": null
-};
+function TodoList() {
+  const [description,setDescription]=useState("");
+  const [inputValues, setInputValues] = useState([]);
+  const [done, setDone] = useState([]);
+  
+  
 
+  const onInputChange = (event) => {
+    setDescription(event.target.value);
+  };
 
-export function TodoList() {
-
-    const [description, setDescription] = useState("");
-    const [isReady, setIsReady] = useState(false);
-    const [isDone, setIsDone] = useState(false);
-
-    todoObject = {
-        "description": description,
-        "isReady": isReady,
-        "isDone": isDone
-    };
-    
-    return(
-        <>
-            <div className="list">
+  const onEnterPress = (event) => {
+    if(event.key === "Enter") {
+      setInputValues([...inputValues, description]);
+      setDescription("");
+    }
+  };
+  
+  const handleCheck = (index) => {
+    const doneItem = inputValues[index];
+    const newTodos = inputValues.filter((elt, i) => i !== index);
+    setDone([...done, doneItem]);
+    setInputValues(newTodos);
+  };
+  
+  return (
+    <> 
+        <div className="list">
+            <div className="todo">
                 <div className="title">
-                    <h2>TODO</h2>
+                    <h2>Todo</h2>
                 </div>
-                <div className="input">
-                    <input 
-                        type={"text"} 
-                        placeholder="Create a new todo" 
-                        onChange={(e)=> setDescription(e.target.value)}
-                        onKeyDown={(e)=> {e.key === "Enter" && setIsReady(true)}}
+                <div>
+                    <input
+                        className="input"
+                        type="text"
+                        placeholder="New to do"
+                        value={description}
+                        onChange={onInputChange}
+                        onKeyDown={onEnterPress}
                     ></input>
+                <div>
+                    {inputValues.map((todo, index) => (
+                        <div className="response" >
+                            <span className="element" key={todo}>
+                                {todo}
+                            </span>
+                            <div className="check">
+                                <input  type="checkbox" onClick={() => handleCheck(index)} />
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                {isReady ? (
-                    <div className="todo">
-                        <p>-{description}</p>
-                        <input type={"checkbox"} onChange={()=> setIsReady(false) || setIsDone(true)}></input>
-                        <span>Done</span>
-                    </div>
-                ):(<></>)}
+                </div>
             </div>
-        </>
-    );
+        </div>
+    <div className="list">
+        <div className="done">
+            <div className="title">
+                <h2>Done</h2>
+            </div>
+        <div>
+            {done.map((todo) => (
+                <div className="response">
+                    <div className="done-elt"  key={todo}>
+                        {todo}
+                    </div>
+                </div>
+            ))}
+        </div>
+        </div>
+    </div>
+    </>
+  );
 }
+
+export default TodoList;
